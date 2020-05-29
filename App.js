@@ -78,7 +78,12 @@ export default class App extends React.Component {
           type,
           name,
         }
-        this.setState({ photo: source})
+        this.setState(
+          {
+            photo: source,
+            log: ""
+          }
+        )
       }
     });
   }
