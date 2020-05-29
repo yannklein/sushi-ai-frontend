@@ -92,7 +92,6 @@ export default class App extends React.Component {
     if (askDisabled) {
       return 0;
     }
-    console.log("not disabled", askDisabled)
     if (!photo) {
       this.setState(
           {
@@ -101,6 +100,7 @@ export default class App extends React.Component {
       );
       return 0;
     }
+    // console.log("not disabled, pic attached")
     this.setState(
       {
         askBtnText: "Analyzing... give us a minute.",
