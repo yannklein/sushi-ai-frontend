@@ -50,7 +50,8 @@ export default class App extends React.Component {
         details: {}
       },
     log: "",
-    askBtnText: "Ask the AI"
+    askBtnText: "Ask the AI",
+    askDisabled: false
   }
 
   handleChoosePhoto = () => {
@@ -85,9 +86,13 @@ export default class App extends React.Component {
 
   handleUploadPhoto = () => {
 
-    const { photo } = this.state;
+    const { photo, askDisabled } = this.state;
 
     // cloudinaryUpload(photo);
+    if (askDisabled) {
+      return 0;
+    }
+    console.log("not disabled", askDisabled)
     if (!photo) {
       this.setState(
           {
@@ -96,8 +101,12 @@ export default class App extends React.Component {
       );
       return 0;
     }
-    this.setState({askBtnText: "Analyzing..."});
-
+    this.setState(
+      {
+        askBtnText: "Analyzing... give us a minute.",
+        askDisabled: true,
+      }
+    );
 
     fetch("https://yanns-ai.onrender.com/analyze", {
       method: "POST",
@@ -110,7 +119,8 @@ export default class App extends React.Component {
           {
             answer: data,
             log: "",
-            askBtnText: "Ask the AI"
+            askBtnText: "Ask the AI",
+            askDisabled: false
           }
         );
       })
@@ -119,14 +129,15 @@ export default class App extends React.Component {
         this.setState(
           {
             log: error.toString(),
-            askBtnText: "Ask the AI"
+            askBtnText: "Ask the AI",
+            askDisabled: false
           }
         );
       });
   };
 
   render() {
-    const { photo, answer, log, askBtnText } = this.state;
+    const { photo, answer, log, askBtnText, askDisabled } = this.state;
 
     return (
       <View style={styles.container}>
@@ -177,7 +188,7 @@ const styles = StyleSheet.create({
   parag: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 24,
+    marginBottom: 24
   },
   result: {
     flex: 1,
@@ -213,6 +224,6 @@ const styles = StyleSheet.create({
   },
   uploadText: {
     textAlign: 'center',
-    color: '#FF4F64',
+    color: '#FF4F64'
   },
 });
